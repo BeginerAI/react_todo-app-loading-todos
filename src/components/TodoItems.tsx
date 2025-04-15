@@ -5,12 +5,19 @@ import { useEffect, useState } from 'react';
 
 interface Prop {
   todo: Todo;
+  allActive: boolean;
 }
 
-export const TodoItems: React.FC<Prop> = ({ todo }) => {
-  useEffect(() => {}, [todo.completed]);
-
+export const TodoItems: React.FC<Prop> = ({ todo, allActive }) => {
   const [isChecked, setIsChecked] = useState(false);
+
+  useEffect(() => {
+    if (allActive) {
+      setIsChecked(true);
+    } else {
+      setIsChecked(false);
+    }
+  }, [allActive]);
 
   // Функція для обробки кліку на чекбокс
   const handleCheckboxChange = () => {

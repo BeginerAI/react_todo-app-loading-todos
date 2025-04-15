@@ -8,11 +8,17 @@ import { Todo } from './types/Todo';
 import { TodoItems } from './components/TodoItems';
 import classNames from 'classnames';
 
+// const a = [
+//   { id: 1, title: 'goood1', completed: false, userId: 3 },
+//   { id: 2, title: 'goood2', completed: true, userId: 5 },
+// ];
+
 export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [sortTodos, setSortTodos] = useState(todos);
   const [errorMessage, setErrorMessage] = useState('');
   const [filter, setfilter] = useState('All');
+  const [allActive, setAllActive] = useState(false);
 
   useEffect(() => {
     getTodos()
@@ -22,11 +28,11 @@ export const App: React.FC = () => {
         setErrorMessage('');
       })
       .catch(() => setErrorMessage('Unable to load todos'));
-  }, [todos]);
+  }, []);
 
-  const handleFilterChange = (newFilter: string) => {
-    setfilter(newFilter);
-    switch (newFilter) {
+  useEffect(() => {
+    // setTodos(a);
+    switch (filter) {
       case 'All':
         setSortTodos(todos);
         break;
@@ -44,6 +50,18 @@ export const App: React.FC = () => {
       default:
         setSortTodos(todos);
         break;
+    }
+  }, [filter, todos]);
+
+  const handleFilterChange = (newFilter: string) => {
+    setfilter(newFilter);
+  };
+
+  const handleAllActive = () => {
+    if (!allActive) {
+      setAllActive(true);
+    } else {
+      setAllActive(false);
     }
   };
 
@@ -64,6 +82,7 @@ export const App: React.FC = () => {
             type="button"
             className="todoapp__toggle-all active"
             data-cy="ToggleAllButton"
+            onClick={handleAllActive}
           />
 
           {/* Add a todo on form submit */}
@@ -79,7 +98,9 @@ export const App: React.FC = () => {
 
         <section className="todoapp__main" data-cy="TodoList">
           {sortTodos.map(todo => {
-            return <TodoItems key={todo.id} todo={todo} />;
+            return (
+              <TodoItems key={todo.id} todo={todo} allActive={allActive} />
+            );
           })}
         </section>
 
@@ -126,13 +147,15 @@ export const App: React.FC = () => {
           </nav>
 
           {/* this button should be disabled if there are no completed todos */}
-          <button
-            type="button"
-            className="todoapp__clear-completed"
-            data-cy="ClearCompletedButton"
-          >
-            Clear completed
-          </button>
+          {todos.find(item => item.completed) && (
+            <button
+              type="button"
+              className="todoapp__clear-completed"
+              data-cy="ClearCompletedButton"
+            >
+              Clear completed
+            </button>
+          )}
         </footer>
       </div>
 
