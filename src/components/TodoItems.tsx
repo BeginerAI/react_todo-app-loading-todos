@@ -9,30 +9,28 @@ interface Prop {
 }
 
 export const TodoItems: React.FC<Prop> = ({ todo, allActive }) => {
-  const [isChecked, setIsChecked] = useState(false);
+  const [isChecked, setIsChecked] = useState(todo.completed);
 
   useEffect(() => {
     if (allActive) {
       setIsChecked(true);
     } else {
-      setIsChecked(false);
+      setIsChecked(todo.completed);
     }
-  }, [allActive]);
+  }, [allActive, todo.completed]);
 
   // Функція для обробки кліку на чекбокс
   const handleCheckboxChange = () => {
-    if (!isChecked) {
-      setIsChecked(true); // Змінюємо стан
-    } else {
-      setIsChecked(false); // Змінюємо стан
-    }
+    setIsChecked(!isChecked);
   };
 
   return (
     <>
       <div
         data-cy="Todo"
-        className={classNames('todo', { completed: isChecked })}
+        className={classNames('todo', {
+          completed: isChecked,
+        })}
       >
         <label className="todo__status-label">
           <input
