@@ -19,7 +19,7 @@ export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [sortTodos, setSortTodos] = useState(todos);
   const [errorMessage, setErrorMessage] = useState('');
-  const [filter, setfilter] = useState('All');
+  const [filter, setfilter] = useState(FiltredValue.All);
   const [allActive, setAllActive] = useState(false);
   const [disableBtn, setDisableBtn] = useState(true);
 
