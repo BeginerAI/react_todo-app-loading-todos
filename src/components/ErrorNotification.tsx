@@ -1,4 +1,5 @@
-import { useLayoutEffect, useState } from 'react';
+import classNames from 'classnames';
+import { useEffect, useLayoutEffect, useState } from 'react';
 
 interface Props {
   message: string;
@@ -13,18 +14,25 @@ export const ErrorNotification: React.FC<Props> = ({ message }) => {
     }
   }, [message]);
 
-  const hideNotification = () => {
-    setStateError(false);
-  };
+  useEffect(() => {
+    if (stateError) {
+      setTimeout(() => {
+        setStateError(false);
+      }, 3000);
+    }
+  }, [stateError]);
 
-  if (!stateError) {
-    return null;
-  }
+  const hideNotification = () => {
+    setStateError(prev => !prev);
+  };
 
   return (
     <div
       data-cy="ErrorNotification"
-      className="notification is-danger is-light has-text-weight-normal"
+      className={classNames(
+        'notification is-danger is-light has-text-weight-normal',
+        { hidden: !stateError },
+      )}
     >
       <button
         data-cy="HideErrorButton"

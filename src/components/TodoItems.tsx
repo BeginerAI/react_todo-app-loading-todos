@@ -8,7 +8,7 @@ interface Prop {
   allActive: boolean;
 }
 
-export const TodoItems: React.FC<Prop> = ({ todo, allActive }) => {
+export const TodoItem: React.FC<Prop> = ({ todo, allActive }) => {
   const [isChecked, setIsChecked] = useState(todo.completed);
 
   useEffect(() => {
