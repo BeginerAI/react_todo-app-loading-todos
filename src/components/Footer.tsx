@@ -29,6 +29,7 @@ export const Footer: React.FC<Props> = ({
       <nav className="filter" data-cy="Filter">
         {Object.values(FiltredValue).map(value => (
           <a
+            data-cy={`FilterLink${value}`}
             key={value}
             href={`#/${value.toLowerCase()}`}
             className={classNames('filter__link', {
