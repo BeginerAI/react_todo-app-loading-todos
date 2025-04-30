@@ -10,6 +10,7 @@ interface Prop {
 
 export const TodoItem: React.FC<Prop> = ({ todo, allActive }) => {
   const [isChecked, setIsChecked] = useState(todo.completed);
+  const { title } = todo;
 
   useEffect(() => {
     if (allActive) {
@@ -43,7 +44,7 @@ export const TodoItem: React.FC<Prop> = ({ todo, allActive }) => {
         </label>
 
         <span data-cy="TodoTitle" className="todo__title">
-          {todo.title}
+          {title}
         </span>
         <button type="button" className="todo__remove" data-cy="TodoDelete">
           ×
